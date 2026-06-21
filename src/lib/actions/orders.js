@@ -31,3 +31,13 @@ export const updateOrderStatus = async (id, status) => {
   });
   return res.json();
 };
+
+export const createOrder = async (orderData) => {
+  const res = await fetch(`${baseUrl}/api/orders`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(orderData),
+  });
+  return res.json();
+};
+
