@@ -33,7 +33,7 @@ export default function ProductDetailsPage() {
   }, [id, router]);
 
   const handleBuyNow = () => {
-    router.push(`/checkout/${id}`); // আগামীকাল বানাবো
+    router.push(`/checkout/${id}`); 
   };
 
   if (loading) {
