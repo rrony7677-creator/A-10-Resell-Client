@@ -6,7 +6,7 @@ import { createOrder } from "@/lib/actions/orders";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-const siteUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"; // আপনার Next.js app
+const siteUrl = process.env.NEXT_PUBLIC_BETTER_AUTH_URL || "http://localhost:3000"; // আপনার Next.js app
 const apiBaseUrl =
   process.env.API_BASE_URL ||
   process.env.NEXT_PUBLIC_API_BASE_URL ||
