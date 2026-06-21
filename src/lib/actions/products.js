@@ -64,3 +64,24 @@ export const deleteProduct = async (id) => {
   });
   return res.json();
 };
+
+export const getPublicProducts = async ({
+  search = "",
+  category = "",
+  condition = "",
+  sort = "",
+  page = 1,
+  limit = 8,} = {}) => {
+  const params = new URLSearchParams();
+  if (search) params.append("search", search);
+  if (category) params.append("category", category);
+  if (condition) params.append("condition", condition);
+  if (sort) params.append("sort", sort);
+  params.append("page", page);
+  params.append("limit", limit);
+
+  const res = await fetch(`${baseUrl}/api/products?${params.toString()}`, {
+    cache: "no-store",
+  });
+  return res.json();
+};

@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
-// import { getPublicProducts } from "@/lib/actions/products";
+import { getPublicProducts } from "@/lib/actions/products";
+
 
 const CATEGORIES = ["electronics", "furniture", "fashion", "vehicles"];
 const CONDITIONS = ["used", "like-new", "refurbished"];
