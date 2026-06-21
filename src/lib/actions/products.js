@@ -1,0 +1,66 @@
+// "use server"
+
+// // Fallback to localhost:5000 if the environment variable isn't defined
+// const baseUrl = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
+
+// export const createProduct = async (productData) => {
+//     const res = await fetch(`${baseUrl}/api/products`, {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(productData),
+//     });
+//     return res.json();
+// };
+
+"use server";
+
+const baseUrl =
+  process.env.API_BASE_URL ||
+  process.env.NEXT_PUBLIC_API_BASE_URL ||
+  "http://localhost:5000";
+
+export const createProduct = async (productData) => {
+  const res = await fetch(`${baseUrl}/api/products`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(productData),
+  });
+  return res.json();
+};
+
+// status না দিলে seller এর সব product (pending, available, rejected — সবই) পাবেন
+export const getSellerProducts = async (sellerId, status) => {
+  const params = new URLSearchParams();
+  if (sellerId) params.append("sellerId", sellerId);
+  if (status) params.append("status", status);
+
+  const res = await fetch(`${baseUrl}/api/products?${params.toString()}`, {
+    cache: "no-store",
+  });
+  return res.json();
+};
+
+export const getProductById = async (id) => {
+  const res = await fetch(`${baseUrl}/api/products/${id}`, {
+    cache: "no-store",
+  });
+  return res.json();
+};
+
+export const updateProduct = async (id, updatedData) => {
+  const res = await fetch(`${baseUrl}/api/products/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(updatedData),
+  });
+  return res.json();
+};
+
+export const deleteProduct = async (id) => {
+  const res = await fetch(`${baseUrl}/api/products/${id}`, {
+    method: "DELETE",
+  });
+  return res.json();
+};
