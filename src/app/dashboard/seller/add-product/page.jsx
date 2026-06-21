@@ -18,6 +18,7 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { createProduct } from "@/lib/actions/products";
 import { useRequireRole } from "@/lib/hooks/useRequireRole";
+import { uploadToImgbb } from "@/lib/utils/uploadImage";
 
 export default function AddProductPage() {
   // const [mockSeller] = useState({
@@ -31,6 +32,21 @@ export default function AddProductPage() {
 
   const [errors, setErrors] = useState({});
   const router = useRouter();
+
+  const [imageFiles, setImageFiles] = useState([null, null, null]);
+  const [imagePreviews, setImagePreviews] = useState([null, null, null]);
+  const [uploading, setUploading] = useState(false);
+
+  const handleImageChange = (index, file) => {
+    if (!file) return;
+    const newFiles = [...imageFiles];
+    newFiles[index] = file;
+    setImageFiles(newFiles);
+
+    const newPreviews = [...imagePreviews];
+    newPreviews[index] = URL.createObjectURL(file);
+    setImagePreviews(newPreviews);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,6 +73,30 @@ export default function AddProductPage() {
 
     setErrors({});
 
+    if (!imageFiles[0]) {
+      setErrors((prev) => ({
+        ...prev,
+        image: "Main product image is required",
+      }));
+      return;
+    }
+
+    setUploading(true);
+    const uploadedUrls = [];
+    try {
+      for (const file of imageFiles) {
+        if (file) {
+          const url = await uploadToImgbb(file);
+          uploadedUrls.push(url);
+        }
+      }
+    } catch (err) {
+      toast.error("Image upload failed, please try again");
+      setUploading(false);
+      return;
+    }
+    setUploading(false);
+
     const payload = {
       title: data.productTitle,
       category: data.category,
@@ -64,9 +104,7 @@ export default function AddProductPage() {
       price: parseFloat(data.price),
       stockQuantity: parseInt(data.stockQuantity, 10),
       description: data.description,
-      imageUrls: [data.imageUrl1, data.imageUrl2, data.imageUrl3].filter(
-        Boolean,
-      ),
+      imageUrls: uploadedUrls,
       // sellerId: mockSeller.id,
       sellerId: session.user?.id,
       sellerName: session.user.name,
@@ -320,7 +358,7 @@ export default function AddProductPage() {
             </TextField>
 
             {/* 5. Product Images URLs */}
-            <div className="space-y-4">
+            {/* <div className="space-y-4">
               <Label className="text-zinc-400 font-medium text-sm flex items-center gap-2">
                 <Picture size={16} className="text-zinc-500" /> Product Images
                 (URLs)
@@ -349,6 +387,49 @@ export default function AddProductPage() {
                   Leave blank to use a default placeholder image layout.
                 </p>
               </div>
+            </div> */}
+            <div className="space-y-4">
+              <Label className="text-zinc-400 font-medium text-sm flex items-center gap-2">
+                <Picture size={16} className="text-zinc-500" /> Product Images *
+              </Label>
+
+              <div className="grid grid-cols-3 gap-3">
+                {[0, 1, 2].map((index) => (
+                  <div key={index}>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      id={`image-${index}`}
+                      className="hidden"
+                      onChange={(e) =>
+                        handleImageChange(index, e.target.files[0])
+                      }
+                    />
+                    <label
+                      htmlFor={`image-${index}`}
+                      className="aspect-square flex items-center justify-center rounded-lg border border-dashed border-zinc-700 bg-[#1c1c1e] hover:bg-[#242426] cursor-pointer overflow-hidden"
+                    >
+                      {imagePreviews[index] ? (
+                        <img
+                          src={imagePreviews[index]}
+                          alt=""
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-zinc-500 text-xs text-center px-2">
+                          {index === 0 ? "Main Image *" : `Image ${index + 1}`}
+                        </span>
+                      )}
+                    </label>
+                  </div>
+                ))}
+              </div>
+              {errors.image && (
+                <p className="text-xs text-danger">{errors.image}</p>
+              )}
+              <p className="text-zinc-500 text-xs italic">
+                প্রথম ছবিটা main image হিসেবে ব্যবহার হবে।
+              </p>
             </div>
           </Fieldset>
 
@@ -366,11 +447,18 @@ export default function AddProductPage() {
             >
               Cancel
             </Button>
-            <Button
+            {/* <Button
               type="submit"
               className="bg-blue-600 text-white font-semibold hover:bg-blue-700 rounded-lg px-6 transition-colors h-11"
             >
               List Product
+            </Button> */}
+            <Button
+              type="submit"
+              isDisabled={uploading}
+              className="bg-blue-600 text-white font-semibold hover:bg-blue-700 rounded-lg px-6 transition-colors h-11"
+            >
+              {uploading ? "Uploading images..." : "List Product"}
             </Button>
           </div>
         </Form>
