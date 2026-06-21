@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
 import { getPublicProducts } from "@/lib/actions/products";
+import { Button } from "@heroui/react";
 
 
 const CATEGORIES = ["electronics", "furniture", "fashion", "vehicles"];
@@ -107,9 +108,8 @@ export default function AllProductsPage() {
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {products.map((product) => (
-                <Link
+                <div
                   key={product._id}
-                  href={`/products/${product._id}`}
                   className="bg-[#121214] border border-zinc-900 rounded-xl overflow-hidden hover:border-zinc-700 transition-colors flex flex-col"
                 >
                   <div className="aspect-square bg-zinc-900">
@@ -130,7 +130,11 @@ export default function AllProductsPage() {
                       <span className="text-zinc-500 text-xs">Stock: {product.stockQuantity}</span>
                     </div>
                   </div>
-                </Link>
+                  <Link href={`/products/${product._id}`}
+                  >
+                    <Button className="w-full p-6 rounded">View Details</Button>
+                  </Link>
+                </div>
               ))}
             </div>
 
