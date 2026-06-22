@@ -24,9 +24,11 @@ export default function PaymentSuccessPage() {
           setOrder(res.order);
           setStatus("success");
         } else {
+          //  console.error("Payment verification failed:", res.message);
           setStatus("failed");
         }
       } catch (err) {
+        //  console.error("Payment verification failed222:", err.message);
         setStatus("failed");
       }
     };
