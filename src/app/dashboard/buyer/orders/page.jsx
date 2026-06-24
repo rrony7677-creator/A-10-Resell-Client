@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-// import { getBuyerOrders, updateOrderStatus } from "@/lib/actions/orders";
+import { getBuyerOrders, updateOrderStatus } from "@/lib/actions/orders";
 import { useRequireRole } from "@/lib/hooks/useRequireRole";
 
 const statusBadge = (status) => {
