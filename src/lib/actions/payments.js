@@ -4,13 +4,19 @@ import Stripe from "stripe";
 import { getProductById, updateProduct } from "@/lib/actions/products";
 import { createOrder } from "@/lib/actions/orders";
 
+
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-const siteUrl = process.env.NEXT_PUBLIC_BETTER_AUTH_URL || "http://localhost:3000"; // আপনার Next.js app
+const siteUrl = process.env.NEXT_PUBLIC_BETTER_AUTH_URL || "http://localhost:3000"; 
 const apiBaseUrl =
-  process.env.API_BASE_URL ||
-  process.env.NEXT_PUBLIC_API_BASE_URL ||
-  "http://localhost:5000"; // Express backend
+  process.env.NEXT_PUBLIC_BASE_URL ||
+  "http://localhost:5000"; 
+
+  export const getBuyerPayments = async (buyerId) => {
+  const res = await fetch(`${apiBaseUrl}/api/payments?buyerId=${buyerId}`, { cache: "no-store" });
+  return res.json();
+};
 
 const createPaymentRecord = async (paymentData) => {
   const res = await fetch(`${apiBaseUrl}/api/payments`, {
@@ -95,4 +101,6 @@ export const verifyPaymentAndCreateOrder = async (sessionId) => {
   });
 
   return { success: true, order: orderPayload };
+
+  
 };

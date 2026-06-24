@@ -4,14 +4,52 @@ import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { getProductById } from "@/lib/actions/products";
+import { useSession } from "@/lib/auth-client";
+import { addToWishlist, getWishlist, removeFromWishlist } from "@/lib/actions/wishlist";
 
 export default function ProductDetailsPage() {
   const { id } = useParams();
   const router = useRouter();
 
+  const { data: session } = useSession();
+const [isWishlisted, setIsWishlisted] = useState(false);
+
+
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState(0);
+
+useEffect(() => {
+  const checkWishlist = async () => {
+    if (!session || !product) return;
+    const list = await getWishlist(session.user.id);
+    setIsWishlisted(Array.isArray(list) && list.some((i) => i.productId === product._id));
+  };
+  checkWishlist();
+}, [session, product]);
+
+const handleToggleWishlist = async () => {
+  if (!session) {
+    toast.error("Please login to use wishlist");
+    return;
+  }
+  if (isWishlisted) {
+    await removeFromWishlist(session.user.id, product._id);
+    setIsWishlisted(false);
+    toast.success("Removed from wishlist");
+  } else {
+    await addToWishlist({
+      buyerId: session.user.id,
+      productId: product._id,
+      title: product.title,
+      image: product.imageUrls?.[0] || "",
+      price: product.price,
+      category: product.category,
+    });
+    setIsWishlisted(true);
+    toast.success("Added to wishlist");
+  }
+};
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -84,13 +122,23 @@ export default function ProductDetailsPage() {
             </div>
           )}
 
-          <button
-            onClick={handleBuyNow}
-            disabled={product.stockQuantity < 1}
-            className="mt-4 bg-blue-600 hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed rounded-lg h-12 font-semibold transition-colors"
-          >
-            {product.stockQuantity < 1 ? "Out of Stock" : "Buy Now"}
-          </button>
+          <div className="flex gap-3 mt-4">
+  <button
+    onClick={handleBuyNow}
+    disabled={product.stockQuantity < 1}
+    className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-40 rounded-lg h-12 font-semibold transition-colors"
+  >
+    {product.stockQuantity < 1 ? "Out of Stock" : "Buy Now"}
+  </button>
+  <button
+    onClick={handleToggleWishlist}
+    className={`px-4 rounded-lg border h-12 transition-colors ${
+      isWishlisted ? "border-red-500 text-red-400 bg-red-500/10" : "border-zinc-700 text-zinc-300"
+    }`}
+  >
+    {isWishlisted ? "♥" : "♡"}
+  </button>
+</div>
         </div>
       </div>
     </div>

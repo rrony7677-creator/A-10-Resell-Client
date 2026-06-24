@@ -24,7 +24,7 @@ export async function DashboardSidebar() {
     { icon: House,       href: "/dashboard/buyer", label: "Dashboard" },
     { icon: FileText,    href: "/dashboard/buyer/orders", label: "My Orders" },
     { icon: Bookmark,    href: "/dashboard/buyer/wishlist", label: "Wishlist" },
-    { icon: CreditCard,  href: "/dashboard/buyer/billing", label: "Payments History"},
+    { icon: CreditCard,  href: "/dashboard/buyer/payment-history", label: "Payments History"},
     { icon: Person,      href: "/dashboard/buyer/profile", label: "Profile Management" },
     // { icon: Gear,        href: "/settings", label: "Settings" },
   ];

@@ -18,7 +18,10 @@ user: {
       type: "string",
       defaultValue: "buyer",
       input: true, // signUp এর সময় client থেকে value সেট করতে দিবে
-    },
+},
+    phone: { type: "string", required: false, input: true },
+    address: { type: "string", required: false, input: true },
+
   },
 },
 });

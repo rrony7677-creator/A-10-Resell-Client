@@ -41,3 +41,8 @@ export const createOrder = async (orderData) => {
   return res.json();
 };
 
+export const getBuyerOrders = async (buyerId) => {
+  const res = await fetch(`${baseUrl}/api/orders?buyerId=${buyerId}`, { cache: "no-store" });
+  return res.json();
+};
+
