@@ -5,6 +5,7 @@ import Link from "next/link";
 import { toast } from "react-hot-toast";
 import { getPublicProducts } from "@/lib/actions/products";
 import { Button } from "@heroui/react";
+import { useSearchParams } from "next/navigation";
 
 const CATEGORIES = ["electronics", "furniture", "fashion", "vehicles"];
 const CONDITIONS = ["used", "like-new", "refurbished"];
@@ -17,7 +18,8 @@ export default function AllProductsPage() {
   const [page, setPage] = useState(1);
 
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("");
+  const searchParams = useSearchParams()
+  const [category, setCategory] = useState(searchParams.get("category") || "");
   const [condition, setCondition] = useState("");
   const [sort, setSort] = useState("");
 
