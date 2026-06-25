@@ -33,10 +33,10 @@ export async function DashboardSidebar() {
   const adminNavLinks = [
     { icon: House,       href: "/dashboard/admin", label: "Dashboard" },
     { icon: Users,       href: "/dashboard/admin/users", label: "Manage Users" },
-    { icon: Layers,      href: "/dashboard/admin/categories", label: "Categories" },
+    // { icon: Layers,      href: "/dashboard/admin/categories", label: "Categories" },
     { icon: ShoppingBag, href: "/dashboard/admin/products", label: "All Products" },
-    { icon: CreditCard,  href: "/dashboard/admin/payments", label: "Transactions" },
-    { icon: Gear,        href: "/dashboard/admin/settings", label: "Settings" },
+    { icon: CreditCard,  href: "/dashboard/admin/manage-orders", label: "Manage-Orders" },
+    { icon: Gear,        href: "/dashboard/admin/platform-analytics", label: "Platform Analytics" },
   ];
 
   // Map keys directly matching your marketplace user roles

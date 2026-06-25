@@ -6,6 +6,7 @@ const DashboardLayout = ({ children }) => {
        <div className="flex min-h-screen"> 
         <DashboardSidebar></DashboardSidebar>
         <div className="flex-1">
+            
             {children}</div>
         </div>
     );

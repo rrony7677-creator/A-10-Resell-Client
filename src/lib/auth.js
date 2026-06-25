@@ -21,7 +21,7 @@ user: {
 },
     phone: { type: "string", required: false, input: true },
     address: { type: "string", required: false, input: true },
-
+    status: { type: "string", defaultValue: "active", input: false },
   },
 },
 });
