@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@heroui/react";
-import { signOut, useSession } from "@/lib/auth-client";
+import { authClient, signOut, useSession } from "@/lib/auth-client";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -20,6 +20,18 @@ export default function Navbar() {
 
   const { data: session } = useSession();
   const user = session?.user;
+
+  useEffect(() => {
+  const syncPendingRole = async () => {
+    const pendingRole = sessionStorage.getItem("pendingRole");
+    if (pendingRole && user && user.role !== pendingRole) {
+      await authClient.updateUser({ role: pendingRole });
+      sessionStorage.removeItem("pendingRole");
+      window.location.reload(); // নতুন role সহ session রিফ্রেশ করার জন্য
+    }
+  };
+  if (user) syncPendingRole();
+}, [user]);
 
   const handleSignOut = async () => {
     await signOut();
