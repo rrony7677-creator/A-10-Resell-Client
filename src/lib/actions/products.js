@@ -16,15 +16,18 @@
 
 "use server";
 
+import { getServerJwt } from "../utils/getServerJwt";
+
 const baseUrl =
   process.env.API_BASE_URL ||
   process.env.NEXT_PUBLIC_API_BASE_URL ||
   "http://localhost:5000";
 
 export const createProduct = async (productData) => {
+  const token = await getServerJwt();
   const res = await fetch(`${baseUrl}/api/products`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json",...(token ? { Authorization: `Bearer ${token}` } : {}), },
     body: JSON.stringify(productData),
   });
   return res.json();
@@ -50,17 +53,30 @@ export const getProductById = async (id) => {
 };
 
 export const updateProduct = async (id, updatedData) => {
+  const token = await getServerJwt();
   const res = await fetch(`${baseUrl}/api/products/${id}`, {
     method: "PATCH",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json",...(token ? { Authorization: `Bearer ${token}` } : {}), },
     body: JSON.stringify(updatedData),
   });
   return res.json();
 };
 
 export const deleteProduct = async (id) => {
+  const token = await getServerJwt();
   const res = await fetch(`${baseUrl}/api/products/${id}`, {
     method: "DELETE",
+     headers: { "Content-Type": "application/json",...(token ? { Authorization: `Bearer ${token}` } : {}), },
+  });
+  return res.json();
+};
+
+export const decrementProductStock = async (id, decrementBy) => {
+  const token = await getServerJwt();
+  const res = await fetch(`${baseUrl}/api/products/${id}/stock`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+    body: JSON.stringify({ decrementBy }),
   });
   return res.json();
 };

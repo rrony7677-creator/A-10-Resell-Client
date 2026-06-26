@@ -43,7 +43,7 @@ export default function AboutPage() {
 
       <section className="text-center pb-16 px-4">
         <h2 className="text-xl font-medium mb-3">Ready to get started?</h2>
-        <Link href="/auth/signup" className="inline-block bg-blue-600 hover:bg-blue-700 rounded-lg px-6 h-11 leading-[44px] text-sm font-semibold">
+        <Link href="/signUp" className="inline-block bg-blue-600 hover:bg-blue-700 rounded-lg px-6 h-11 leading-[44px] text-sm font-semibold">
           Join ResellHub
         </Link>
       </section>

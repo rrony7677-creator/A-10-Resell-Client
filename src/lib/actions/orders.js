@@ -1,5 +1,7 @@
 "use server";
 
+import { getServerJwt } from "../utils/getServerJwt";
+
 const baseUrl =
   process.env.API_BASE_URL ||
   process.env.NEXT_PUBLIC_API_BASE_URL ||
@@ -24,18 +26,20 @@ export const getOrderById = async (id) => {
 };
 
 export const updateOrderStatus = async (id, status) => {
+  const token = await getServerJwt();
   const res = await fetch(`${baseUrl}/api/orders/${id}/status`, {
     method: "PATCH",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json",...(token ? { Authorization: `Bearer ${token}` } : {}), },
     body: JSON.stringify({ status }),
   });
   return res.json();
 };
 
 export const createOrder = async (orderData) => {
+  const token = await getServerJwt();
   const res = await fetch(`${baseUrl}/api/orders`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json",...(token ? { Authorization: `Bearer ${token}` } : {}), },
     body: JSON.stringify(orderData),
   });
   return res.json();

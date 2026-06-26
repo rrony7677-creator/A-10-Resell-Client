@@ -1,5 +1,7 @@
 "use server";
 
+import { getServerJwt } from "../utils/getServerJwt";
+
 const baseUrl =
   process.env.API_BASE_URL ||
   process.env.NEXT_PUBLIC_API_BASE_URL ||
@@ -11,18 +13,23 @@ export const getWishlist = async (buyerId) => {
 };
 
 export const addToWishlist = async (item) => {
+  const token = await getServerJwt();
   const res = await fetch(`${baseUrl}/api/wishlist`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json",...(token ? { Authorization: `Bearer ${token}` } : {}), },
     body: JSON.stringify(item),
   });
   return res.json();
 };
 
 export const removeFromWishlist = async (buyerId, productId) => {
+  const token = await getServerJwt();
   const res = await fetch(
     `${baseUrl}/api/wishlist?buyerId=${buyerId}&productId=${productId}`,
-    { method: "DELETE" }
+    { method: "DELETE",
+       headers: { "Content-Type": "application/json",...(token ? { Authorization: `Bearer ${token}` } : {}), },
+     },
+    
   );
   return res.json();
 };

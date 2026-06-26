@@ -212,7 +212,7 @@ export default function SignUpPage() {
             className="w-full font-semibold bg-blue-600 text-white mt-2 h-10 rounded-lg hover:bg-blue-700 transition"
             isLoading={isLoading}
           >
-            Sign Up
+           Register
           </Button>
         </Form>
 
