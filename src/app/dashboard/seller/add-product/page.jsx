@@ -427,9 +427,9 @@ export default function AddProductPage() {
               {errors.image && (
                 <p className="text-xs text-danger">{errors.image}</p>
               )}
-              <p className="text-zinc-500 text-xs italic">
-                প্রথম ছবিটা main image হিসেবে ব্যবহার হবে।
-              </p>
+              {/* <p className="text-zinc-500 text-xs italic">
+               In the first image is ur main image
+              </p> */}
             </div>
           </Fieldset>
 

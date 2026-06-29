@@ -27,7 +27,7 @@ export default function Navbar() {
     if (pendingRole && user && user.role !== pendingRole) {
       await authClient.updateUser({ role: pendingRole });
       sessionStorage.removeItem("pendingRole");
-      window.location.reload(); // নতুন role সহ session রিফ্রেশ করার জন্য
+      window.location.reload(); 
     }
   };
   if (user) syncPendingRole();
@@ -45,7 +45,7 @@ export default function Navbar() {
       : user.role === "seller"
       ? "/dashboard/seller"
       : "/dashboard/buyer"
-    : "/auth/signup";
+    : "/signUp";
 
   return (
     <nav className="sticky top-0 z-50 border-b border-white/10 bg-black/70 backdrop-blur-xl shadow-lg">
@@ -101,7 +101,7 @@ export default function Navbar() {
                 Sign In
               </Link>
               <Link
-                href="/auth/signup"
+                href="/signUp"
                 className="rounded-lg bg-blue-600 hover:bg-blue-700 px-4 py-2 text-sm font-medium text-white transition-colors"
               >
                 Get Started
@@ -156,7 +156,7 @@ export default function Navbar() {
                 <Link href="/login" className="block rounded-lg py-3 text-gray-300 hover:text-white" onClick={() => setMenuOpen(false)}>
                   Sign In
                 </Link>
-                <Link href="/auth/signup" className="block w-full text-center rounded-lg bg-blue-600 py-3 text-sm font-medium text-white" onClick={() => setMenuOpen(false)}>
+                <Link href="/signUp" className="block w-full text-center rounded-lg bg-blue-600 py-3 text-sm font-medium text-white" onClick={() => setMenuOpen(false)}>
                   Get Started
                 </Link>
               </>

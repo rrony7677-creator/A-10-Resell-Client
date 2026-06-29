@@ -21,7 +21,7 @@ const slides = [
     primaryBtn: "Explore Products",
     primaryLink: "/products",
     secondaryBtn: "Start Selling",
-    secondaryLink: "/dashboard/add-product",
+    secondaryLink: "/dashboard/seller/add-product",
   },
   {
     title: "Turn Your Unused Items into Cash",

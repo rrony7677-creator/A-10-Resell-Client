@@ -41,7 +41,7 @@ export default function SignUpPage() {
 
 
 const handleGoogleSignUp = async () => {
-  sessionStorage.setItem("pendingRole", role); // আগে সিলেক্ট করা role সেভ রাখা
+  sessionStorage.setItem("pendingRole", role); 
   await authClient.signIn.social({ provider: "google", callbackURL: "/" });
 };
 
