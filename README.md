@@ -4,7 +4,7 @@
 ResellHub is an online marketplace where users can buy and sell pre-owned products safely and efficiently. Sellers list items they no longer need, buyers browse and purchase securely, and admins moderate the platform — helping reduce waste and promote affordable, sustainable shopping.
 
 ## Live URL
-https://a-10-resell-client.vercel.app/
+https://resell-sable.vercel.app
 
 ## Key Features
 - Role-based dashboards for Buyer, Seller, and Admin with protected routes
